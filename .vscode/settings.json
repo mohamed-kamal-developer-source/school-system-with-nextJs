@@ -1,0 +1,30 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/public": true,
+    "**/.turbo": true,
+    "**/.vercel": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/.cache": true,
+    "**/*.log": true,
+    "**/.DS_Store": true,
+    // "**.json": true,
+    "**env**": true,
+    "next**": true,
+    // "**config**": true,
+    "**/.vscode": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/coverage": true
+  },
+  "explorer.excludeGitIgnore": true
+}
