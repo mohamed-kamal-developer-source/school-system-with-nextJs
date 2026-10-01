@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { jwtVerify } from "jose";
 
-const SECRET = new TextEncoder().encode("1234");
+const SECRET = new TextEncoder().encode("a1234");
 
 export default async function AdminLayout({ children }) {
   const token = (await cookies()).get("token")?.value;
