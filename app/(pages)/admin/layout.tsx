@@ -14,6 +14,8 @@ export default async function AdminLayout({ children }) {
     role = payload.role;
   } catch {}
 
+  console.log(role)
+
   if (role !== "admin") redirect("/dashboard");
 
   return <>{children}</>;
