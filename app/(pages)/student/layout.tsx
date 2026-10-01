@@ -16,5 +16,4 @@ export default async function AdminLayout({ children }) {
 
   if (role !== "student") redirect("/dashboard");
 
-  return <>{children}</>;
 }
