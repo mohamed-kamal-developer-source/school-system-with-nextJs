@@ -16,7 +16,7 @@ export default async function AdminLayout({ children }) {
 
   console.log(role)
 
-  if (role !== "admin") redirect("/dashboard");
+  if (role !== "admin") redirect("/login");
 
   return <>{children}</>;
 }
