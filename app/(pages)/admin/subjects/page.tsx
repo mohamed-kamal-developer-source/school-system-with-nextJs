@@ -13,6 +13,7 @@ import Table from "@/componentes/table";
 
 export default function Subjects() {
   const [formState, setFormState] = useState(null);
+  const [tableKey, setTableKey] = useState(0);
 
   const dataFields = useMemo(() => {
     const createFields = [
@@ -63,6 +64,7 @@ export default function Subjects() {
             }
             fields={dataFields.createFields}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             createReq={dataFields.createReq}
             id={formState.id}
           />
@@ -70,6 +72,7 @@ export default function Subjects() {
       </PageHeader>
 
       <Table
+        refreshKey={tableKey}
         actions={dataFields.actions}
         tablefields={dataFields.tablefields}
         tableRows={dataFields.tableRows}

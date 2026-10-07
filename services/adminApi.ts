@@ -40,6 +40,13 @@ export const createStudent = async (payload) => {
   const { data } = await api.post("/student", payload);
   return data.data;
 };
+
+export const importStudents = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await api.post("/admin/students/import", formData);
+  return data.data;
+};
 export const updateStudent = async (id, payload) => {
   const { data } = await api.patch(`/student/${id}`, payload);
   return data.data;

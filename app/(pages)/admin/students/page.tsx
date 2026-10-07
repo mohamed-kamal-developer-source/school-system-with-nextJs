@@ -15,6 +15,8 @@ import {
 import Table from "@/componentes/table";
 import useFetch from "@/hooks/useFetch";
 import Loading from "@/app/loading";
+import ExcelUploadForm from "@/componentes/excelUploadForm";
+import { importStudents } from "@/services/adminApi";
 
 export default function Students() {
   const [formState, setFormState] = useState(null);
@@ -23,6 +25,8 @@ export default function Students() {
   const [students, setStudents] = useState(false);
   const [selectedStudent, setStudent] = useState("");
   const [selectedClass, setClass] = useState("");
+  const [showExcelUpload, setShowExcelUpload] = useState(false);
+  const [tableKey, setTableKey] = useState(0);
 
   const dataFields = useMemo(() => {
     const createFields = [
@@ -108,6 +112,10 @@ export default function Students() {
           onClick={() => setFormState({ mode: "create" })}
         />
         <CreateButton
+          name="Import Students Excel"
+          onClick={() => setShowExcelUpload(true)}
+        />
+        <CreateButton
           name="transfer Student"
           onClick={() => setTrasnferForm(true)}
         />
@@ -126,8 +134,28 @@ export default function Students() {
             fields={dataFields.createFields}
             createReq={dataFields.createReq}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             id={formState.id}
             selects={[{ name: "gender", data: ["male", "female"] }]}
+          />
+        )}
+
+        {showExcelUpload && (
+          <ExcelUploadForm
+            title="Import students from Excel"
+            requiredColumns={[
+              "name",
+              "email",
+              "password",
+              "age",
+              "gender",
+              "phone",
+              "parent_name",
+              "parent_phone",
+            ]}
+            submitFunc={importStudents}
+            onClose={() => setShowExcelUpload(false)}
+            onSuccess={() => setTableKey((key) => key + 1)}
           />
         )}
 
@@ -198,6 +226,7 @@ export default function Students() {
       </PageHeader>
 
       <Table
+        key={tableKey}
         actions={dataFields.actions}
         tablefields={dataFields.tablefields}
         tableRows={dataFields.tableRows}

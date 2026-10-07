@@ -16,6 +16,7 @@ import Loading from "@/app/loading";
 
 export default function Teachers() {
   const [formState, setFormState] = useState(null);
+  const [tableKey, setTableKey] = useState(0);
 
   const dataFields = useMemo(() => {
     const createFields = [
@@ -90,12 +91,14 @@ export default function Teachers() {
             fields={dataFields.createFields}
             createReq={dataFields.createReq}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             id={formState.id}
           />
         )}
       </PageHeader>
 
       <Table
+        refreshKey={tableKey}
         actions={dataFields.actions}
         tablefields={dataFields.tablefields}
         tableRows={dataFields.tableRows}

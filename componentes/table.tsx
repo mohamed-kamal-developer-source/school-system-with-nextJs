@@ -16,10 +16,12 @@ export default function Table({
   deleteData,
   payload,
   getDataFromTable,
+  refreshKey,
 }) {
   const [deleteTargetId, setDeleteTargetId] = useState(null);
   const [sort, setSort] = useState(null);
   const [search, setSearch] = useState(null);
+  const [mutationVersion, setMutationVersion] = useState(0);
   const router = useRouter();
   const path = usePathname();
 
@@ -35,17 +37,16 @@ export default function Table({
             sort: sort ? sort : null,
           })
         : getData({ search: search ? search : null, sort: sort ? sort : null }),
-    [search, sort],
+    [search, sort, refreshKey, mutationVersion],
   );
 
   if (loadingData) {
-    return <Loading></Loading>;
+    return <Loading variant="section"></Loading>;
   }
 
   if (getDataFromTable) {
     getDataFromTable(tableData);
   }
-
 
   return (
     <div className="page-content">
@@ -55,7 +56,7 @@ export default function Table({
         }}
       ></Search>
 
-      <div className="table">
+      <div className="table" style={{ position: "relative", minHeight: 200 }}>
         <table>
           <thead>
             <tr>
@@ -111,6 +112,11 @@ export default function Table({
                                   <DeleteForm
                                     onClose={() => setDeleteTargetId(null)}
                                     deleteFunc={() => deleteData(d.id)}
+                                    onSuccess={() =>
+                                      setMutationVersion(
+                                        (version) => version + 1,
+                                      )
+                                    }
                                   />
                                 )}
                             </li>

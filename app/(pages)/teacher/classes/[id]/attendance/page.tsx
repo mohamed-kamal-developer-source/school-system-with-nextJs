@@ -10,11 +10,13 @@ import {
   addAttendance,
   deleteAttendance,
   updateAttendance,
+  importAttendance,
 } from "@/services/teacherApi";
 import CreateForm from "@/componentes/createForm";
 import useFetch from "@/hooks/useFetch";
 import classStudents from "../students/page";
 import Loading from "@/componentes/Loading";
+import ExcelUploadForm from "@/componentes/excelUploadForm";
 
 export default function classAttendance() {
   const router = useRouter();
@@ -25,6 +27,8 @@ export default function classAttendance() {
   const [date, setDate] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [formState, setFormState] = useState(null);
+  const [showExcelUpload, setShowExcelUpload] = useState(false);
+  const [tableKey, setTableKey] = useState(0);
 
   const dataFields = useMemo(() => {
     const createFields = [{ name: "date", type: "date", required: true }];
@@ -72,6 +76,10 @@ export default function classAttendance() {
           name="+ add attendance"
           onClick={() => setFormState({ mode: "create" })}
         />
+        <CreateButton
+          name="Import Attendance Excel"
+          onClick={() => setShowExcelUpload(true)}
+        />
 
         <CreateButton
           name={"← Back"}
@@ -89,6 +97,7 @@ export default function classAttendance() {
             }
             fields={dataFields.createFields}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             createReq={dataFields.createReq}
             selects={[
               { name: "student", data: studentsName },
@@ -98,6 +107,16 @@ export default function classAttendance() {
               },
             ]}
             id={formState.id}
+          />
+        )}
+
+        {showExcelUpload && (
+          <ExcelUploadForm
+            title="Import attendance from Excel"
+            requiredColumns={["student_id", "status"]}
+            submitFunc={importAttendance}
+            onClose={() => setShowExcelUpload(false)}
+            onSuccess={() => setTableKey((key) => key + 1)}
           />
         )}
       </PageHeader>
@@ -120,7 +139,7 @@ export default function classAttendance() {
 
       {selectedDate && (
         <Table
-          key={selectedDate}
+          key={`${selectedDate}-${tableKey}`}
           actions={dataFields.actions}
           tablefields={dataFields.tablefields}
           tableRows={dataFields.tableRows}

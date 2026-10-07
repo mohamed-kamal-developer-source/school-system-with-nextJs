@@ -18,6 +18,7 @@ import Loading from "@/app/loading";
 
 export default function class_Subjects() {
   const [formState, setFormState] = useState(null);
+  const [tableKey, setTableKey] = useState(0);
   const router = useRouter();
   const path = usePathname();
   const pages = path.split("/");
@@ -93,6 +94,7 @@ export default function class_Subjects() {
             }
             fields={dataFields.createFields}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             createReq={dataFields.createReq}
             id={formState.id}
             selects={[{ name: "select teacher", data: teachersName }]}
@@ -101,6 +103,7 @@ export default function class_Subjects() {
       </PageHeader>
 
       <Table
+        refreshKey={tableKey}
         actions={dataFields.actions}
         tablefields={dataFields.tablefields}
         tableRows={dataFields.tableRows}

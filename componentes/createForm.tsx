@@ -10,6 +10,7 @@ export default function CreateForm({
   onClose,
   createReq,
   id,
+  onSuccess,
 }) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
@@ -72,6 +73,7 @@ export default function CreateForm({
         await submitFunc(id, values);
       }
       if (mode === "create") setValues({});
+      onSuccess?.();
       onClose?.();
     } catch (err) {
       setFormError(err instanceof Error ? err.message : "something went wrong");

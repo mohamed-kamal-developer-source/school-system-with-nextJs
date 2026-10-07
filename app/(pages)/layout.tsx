@@ -3,16 +3,14 @@
 import { useAuth } from "@/contexts/authContext";
 import { dataObj } from "./data";
 import { icons } from "./data";
-
 import { useRouter } from "next/navigation";
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  
-  const { user,loading } = useAuth();
+import { useState } from "react";
 
-  if(loading) {
-    return <div>Loading...</div>
-  }
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const [loggingOut, setLoggingOut] = useState(false);
+  
+  const { user,logOut} = useAuth();
 
   const pages = user ? dataObj[user.role] : [];
 
@@ -45,6 +43,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </ul>
         </div>
+
+            <div className="logout">
+            <button
+              disabled={loggingOut}
+              onClick={async () => {
+                setLoggingOut(true);
+                try {
+                  await logOut();
+                  router.replace("/login");
+                  router.refresh();
+                } finally {
+                  setLoggingOut(false);
+                }
+              }}
+            >
+              {loggingOut ? "logging out..." : "logout"}
+            </button>
+            </div>
+
       </div>
 
       <div className="page">

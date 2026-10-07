@@ -1,8 +1,10 @@
-export default function DeleteForm({ onClose,deleteFunc }) {
+export default function DeleteForm({ onClose, deleteFunc, onSuccess }) {
 
     async function submitDelete() {
         try {
             await deleteFunc()
+            onSuccess?.()
+            onClose()
         } catch (error) {
             
         }

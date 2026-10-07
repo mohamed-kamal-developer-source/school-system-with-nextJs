@@ -1,7 +1,5 @@
+import Noading from "@/componentes/Loading"
+
 export default function Loading() {
-  return (
-    <div >
-      test Loading...
-    </div>
-  );
+  return <Noading ></Noading>
 }

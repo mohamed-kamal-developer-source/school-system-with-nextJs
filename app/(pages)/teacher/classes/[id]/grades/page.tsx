@@ -9,12 +9,14 @@ import {
   deleteGrade,
   teacherGradesForClass,
   updateGrade,
+  importGrades,
 } from "@/services/teacherApi";
 import Table from "@/componentes/table";
 import useFetch from "@/hooks/useFetch";
 import { getclassStudents } from "@/services/classesApi";
 import Loading from "@/componentes/Loading";
 import CreateForm from "@/componentes/createForm";
+import ExcelUploadForm from "@/componentes/excelUploadForm";
 
 export default function classGrades() {
   const router = useRouter();
@@ -25,6 +27,8 @@ export default function classGrades() {
   const [date, setDate] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [formState, setFormState] = useState(null);
+  const [showExcelUpload, setShowExcelUpload] = useState(false);
+  const [tableKey, setTableKey] = useState(0);
 
   const dataFields = useMemo(() => {
     const createFields = [
@@ -86,6 +90,10 @@ export default function classGrades() {
           name="+ add grade"
           onClick={() => setFormState({ mode: "create" })}
         />
+        <CreateButton
+          name="Import Grades Excel"
+          onClick={() => setShowExcelUpload(true)}
+        />
 
         <CreateButton
           name={"← Back"}
@@ -102,6 +110,7 @@ export default function classGrades() {
             fields={dataFields.createFields}
              createReq={dataFields.createReq}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             selects={[
               { name: "student", data: studentsName },
               {
@@ -110,6 +119,16 @@ export default function classGrades() {
               },
             ]}
             id={formState.id}
+          />
+        )}
+
+        {showExcelUpload && (
+          <ExcelUploadForm
+            title="Import grades from Excel"
+            requiredColumns={["student_id", "exam_type", "score", "max_score"]}
+            submitFunc={importGrades}
+            onClose={() => setShowExcelUpload(false)}
+            onSuccess={() => setTableKey((key) => key + 1)}
           />
         )}
       </PageHeader>
@@ -132,7 +151,7 @@ export default function classGrades() {
 
       {selectedDate && (
         <Table
-          key={selectedDate}
+          key={`${selectedDate}-${tableKey}`}
           actions={dataFields.actions}
           tablefields={dataFields.tablefields}
           tableRows={dataFields.tableRows}

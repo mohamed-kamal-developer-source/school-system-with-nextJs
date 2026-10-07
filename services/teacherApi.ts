@@ -36,6 +36,20 @@ export const addAttendance = async (payload = {}) => {
   return data.data.attendance;
 };
 
+export const importGrades = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await api.post("/teacher/grades/import", formData);
+  return data.data;
+};
+
+export const importAttendance = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await api.post("/teacher/attendance/import", formData);
+  return data.data;
+};
+
 export const updateAttendance = async (id) => {
   const { data } = await api.patch(`/teacher/updateAttendance/${id}`);
   return data.data.attendance;

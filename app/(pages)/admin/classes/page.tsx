@@ -14,6 +14,7 @@ import Table from "@/componentes/table";
 
 export default function classes() {
   const [formState, setFormState] = useState(null);
+  const [tableKey, setTableKey] = useState(0);
 
   const dataFields = useMemo(() => {
     const createFields = [
@@ -77,6 +78,7 @@ export default function classes() {
             fields={dataFields.createFields}
             createReq={dataFields.createReq}
             onClose={() => setFormState(null)}
+            onSuccess={() => setTableKey((key) => key + 1)}
             selects={[{ name: "status", data: ["active", "inactive"] }]}
             id={formState.id}
           />
@@ -84,6 +86,7 @@ export default function classes() {
       </PageHeader>
 
       <Table
+        refreshKey={tableKey}
         actions={dataFields.actions}
         tablefields={dataFields.tablefields}
         tableRows={dataFields.tableRows}
