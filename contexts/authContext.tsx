@@ -10,10 +10,7 @@ import {
   type SetStateAction,
 } from "react";
 
-import {
-  loginUser,
-  getCurrentUser,
-} from "../services/authApi";
+import { loginUser, getCurrentUser } from "../services/authApi";
 
 import { logoutUser } from "@/api-client/logout";
 
@@ -29,11 +26,7 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-export const AuthProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -50,12 +43,11 @@ export const AuthProvider = ({
       });
   }, []);
 
-  const login = async (
-    email: string,
-    password: string
-  ): Promise<User> => {
+  const login = async (email: string, password: string): Promise<User> => {
+    setLoading(true);
     const { user } = await loginUser({ email, password });
 
+    setLoading(false);
     setUser(user);
 
     return user;

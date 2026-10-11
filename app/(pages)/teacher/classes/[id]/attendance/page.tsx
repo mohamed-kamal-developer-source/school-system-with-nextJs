@@ -14,8 +14,6 @@ import {
 } from "@/services/teacherApi";
 import CreateForm from "@/componentes/createForm";
 import useFetch from "@/hooks/useFetch";
-import classStudents from "../students/page";
-import Loading from "@/componentes/Loading";
 import ExcelUploadForm from "@/componentes/excelUploadForm";
 
 export default function classAttendance() {
@@ -59,9 +57,7 @@ export default function classAttendance() {
     getclassStudents(id),
   );
 
-  if (loading) {
-    return <Loading></Loading>;
-  }
+
 
   const studentsName = [];
 
@@ -113,7 +109,7 @@ export default function classAttendance() {
         {showExcelUpload && (
           <ExcelUploadForm
             title="Import attendance from Excel"
-            requiredColumns={["student_id", "status"]}
+            requiredColumns={["student_name", "status","date"]}
             submitFunc={importAttendance}
             onClose={() => setShowExcelUpload(false)}
             onSuccess={() => setTableKey((key) => key + 1)}

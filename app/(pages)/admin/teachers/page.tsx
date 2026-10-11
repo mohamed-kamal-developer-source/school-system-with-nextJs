@@ -63,10 +63,6 @@ export default function Teachers() {
 
   const { data: subjects, loading: loading } = useFetch(() => getAllSubjects());
 
-  if (loading) {
-    return <Loading></Loading>;
-  }
-
   const subjectsName = [];
 
   subjects?.map((s) => {

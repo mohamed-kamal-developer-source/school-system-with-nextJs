@@ -100,9 +100,6 @@ export default function Students() {
     getAllClasses(),
   );
 
-  if (LoadingClasses) {
-    return <Loading></Loading>;
-  }
 
   return (
     <div className="admin-Students">

@@ -47,9 +47,7 @@ export default function classGrades() {
   const { data: subjects, loading: loading } = useFetch(() => getAllSubjects());
 
 
-  if (loading) {
-    return <Loading></Loading>;
-  }
+
 
   return (
     <div className="view-page">

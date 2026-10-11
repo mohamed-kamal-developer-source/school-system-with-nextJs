@@ -57,9 +57,7 @@ export default function class_Subjects() {
     getclassTeachers(id),
   );
 
-  if (loading) {
-    return <Loading></Loading>;
-  }
+
 
   const teachersName = [];
 

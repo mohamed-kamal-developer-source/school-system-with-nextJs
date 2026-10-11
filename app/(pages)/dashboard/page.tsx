@@ -18,7 +18,7 @@ export default function dashboard() {
     teacher: teacherClassesForDashboard,
   };
 
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   const pages = user ? dataObj[user.role] : [];
 

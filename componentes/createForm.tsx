@@ -37,7 +37,7 @@ export default function CreateForm({
       const f = fields[i];
       const value = String(values[key] ?? "").trim();
 
-      if (f.required && !value) {
+      if (f?.required && !value) {
         newErrors[key] = `${f.name} is required`;
         return;
       }

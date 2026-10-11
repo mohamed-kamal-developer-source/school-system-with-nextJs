@@ -13,7 +13,8 @@ export default function Login() {
 
   async function onLogin() {
     await login(email, password);
-    router.push("/dashboard");
+    router.replace("/dashboard");
+    router.refresh();
   }
 
   return (

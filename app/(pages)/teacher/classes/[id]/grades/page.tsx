@@ -14,7 +14,6 @@ import {
 import Table from "@/componentes/table";
 import useFetch from "@/hooks/useFetch";
 import { getclassStudents } from "@/services/classesApi";
-import Loading from "@/componentes/Loading";
 import CreateForm from "@/componentes/createForm";
 import ExcelUploadForm from "@/componentes/excelUploadForm";
 
@@ -34,7 +33,7 @@ export default function classGrades() {
     const createFields = [
       { name: "score", type: "text", required: true },
       { name: "max score", type: "text", required: true },
-      { name: "date", type: "date", required: true }
+      { name: "date", type: "date", required: true },
     ];
 
     const tablefields = [
@@ -58,12 +57,12 @@ export default function classGrades() {
       "percentage",
     ];
 
-    const createReq = ["score","maxScore","recordedAt"]
-    
+    const createReq = ["score", "maxScore", "recordedAt"];
+
     return {
       tablefields: tablefields,
       createFields: createFields,
-      createReq:createReq,
+      createReq: createReq,
       actions: actions,
       tableRows: tableRows,
     };
@@ -72,10 +71,6 @@ export default function classGrades() {
   const { data: students, loading: loading } = useFetch(() =>
     getclassStudents(id),
   );
-
-  if (loading) {
-    return <Loading></Loading>;
-  }
 
   const studentsName = [];
 
@@ -108,7 +103,7 @@ export default function classGrades() {
             initialValues={formState.data || {}}
             submitFunc={formState.mode === "edit" ? updateGrade : addGrade}
             fields={dataFields.createFields}
-             createReq={dataFields.createReq}
+            createReq={dataFields.createReq}
             onClose={() => setFormState(null)}
             onSuccess={() => setTableKey((key) => key + 1)}
             selects={[
@@ -125,7 +120,13 @@ export default function classGrades() {
         {showExcelUpload && (
           <ExcelUploadForm
             title="Import grades from Excel"
-            requiredColumns={["student_id", "exam_type", "score", "max_score"]}
+            requiredColumns={[
+              "student_name",
+              "exam_type",
+              "score",
+              "max_score",
+              "date",
+            ]}
             submitFunc={importGrades}
             onClose={() => setShowExcelUpload(false)}
             onSuccess={() => setTableKey((key) => key + 1)}
